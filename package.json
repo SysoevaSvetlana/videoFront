@@ -15,6 +15,7 @@
     "@fullcalendar/vue3": "^6.1.17",
     "axios": "^1.9.0",
     "core-js": "^3.8.3",
+    "swiper": "^11.2.8",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },

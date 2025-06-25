@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <div class="scroll-shadow" :class="{ visible: isScrolled }"></div>
-    <nav class="header-nav" :class="{ scrolled: isScrolled }"></nav>
     <router-view/>
   </div>
 </template>
@@ -11,24 +9,18 @@ export default {
   name: 'App',
   data() {
     return {
-      isScrolled: false
+      // сюда можно добавить данные, если нужно
     }
   },
   mounted() {
-    window.addEventListener('scroll', this.handleScroll);
+    // сюда можно добавить код, который выполнится при монтировании
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.handleScroll);
-  },
-  methods: {
-    handleScroll() {
-      this.isScrolled = window.scrollY > 0;
-    }
+    // сюда можно добавить очистку перед уничтожением компонента
   }
 }
 </script>
 
 <style lang="scss">
-/* Здесь будут глобальные стили */
 @import '@/assets/styles/main.scss';
 </style>

@@ -28,20 +28,11 @@ export default {
     ContactsSection
   },
   mounted() {
-    this.initScrollShadow()
+   
     this.initWorkVideos()
   },
   methods: {
-    initScrollShadow() {
-      const shadowElement = document.querySelector('.scroll-shadow')
-      
-      window.addEventListener('scroll', () => {
-        requestAnimationFrame(() => {
-          const scrollPercent = Math.min(window.scrollY / 300, 1)
-          shadowElement.style.opacity = scrollPercent
-        })
-      })
-    },
+    
     initWorkVideos() {
       const workVideos = document.querySelectorAll('.work-item video')
       workVideos.forEach(video => {

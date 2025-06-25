@@ -3,23 +3,24 @@
     <div class="appointment-form">
       <h3>Новая запись</h3>
       <p>Время: {{ formatDateTime(timeSlot.start) }} - {{ formatDateTime(timeSlot.end) }}</p>
-      
+
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
           <label>Ваше имя:</label>
-          <input v-model="formData.clientName" required type="text" placeholder="Иван Иванов">
+          <input v-model="formData.clientName" type="text" readonly />
+
         </div>
-        
+
         <div class="form-group">
           <label>Email:</label>
-          <input v-model="formData.clientEmail" required type="email" placeholder="ivan@example.com">
+          <input v-model="formData.clientEmail" required type="email" placeholder="ivan@example.com" />
         </div>
-        
+
         <div class="form-group">
-          <label>Описание (необязательно):</label>
+          <label>Описание (Расскажите какую съемку вы хотите и видеограф с вами обязательно свяжется):</label>
           <textarea v-model="formData.description" placeholder="Цель визита..."></textarea>
         </div>
-        
+
         <div class="form-actions">
           <button type="button" @click="$emit('cancel')" class="cancel-btn">Отмена</button>
           <button type="submit" class="submit-btn">Записаться</button>
@@ -35,6 +36,10 @@ export default {
     timeSlot: {
       type: Object,
       required: true
+    },
+    user: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -44,11 +49,17 @@ export default {
         clientEmail: '',
         description: ''
       }
+    };
+  },
+  created() {
+    if (this.user) {
+      if (this.user.name) this.formData.clientName = this.user.name;
+      if (this.user.email) this.formData.clientEmail = this.user.email;
     }
   },
   methods: {
     formatDateTime(date) {
-      return date.toLocaleString('ru-RU', {
+      return new Date(date).toLocaleString('ru-RU', {
         weekday: 'short',
         day: 'numeric',
         month: 'short',
@@ -57,10 +68,16 @@ export default {
       });
     },
     handleSubmit() {
-      this.$emit('submit', this.formData);
+      this.$emit('submit', {
+        clientName: this.formData.clientName,
+        clientEmail: this.formData.clientEmail,
+        description: this.formData.description,
+        startTime: this.timeSlot.start,
+        endTime: this.timeSlot.end
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -101,7 +118,8 @@ label {
   font-weight: 500;
 }
 
-input, textarea {
+input,
+textarea {
   width: 100%;
   padding: 8px 12px;
   border: 1px solid #ddd;
